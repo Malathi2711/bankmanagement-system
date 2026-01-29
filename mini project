@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+struct account {
+    int accNo;
+    char name[20];
+    float balance;
+};
+
+int main() {
+    FILE *fp;
+    struct account a;
+    int choice;
+
+    fp = fopen("bank.dat", "ab+");
+
+    do {
+        printf("\n1.Add Account\n2.View Accounts\n3.Exit\nChoice: ");
+        scanf("%d", &choice);
+
+        if (choice == 1) {
+            printf("Acc No Name Balance: ");
+            scanf("%d %s %f", &a.accNo, a.name, &a.balance);
+            fwrite(&a, sizeof(a), 1, fp);
+        }
+
+        else if (choice == 2) {
+            rewind(fp);
+            while (fread(&a, sizeof(a), 1, fp))
+                printf("%d %s %.2f\n", a.accNo, a.name, a.balance);
+        }
+
+    } while (choice != 3);
+
+    fclose(fp);
+    return 0;
+}
